@@ -1,11 +1,31 @@
 "use client";
 
 import { useState } from "react";
-
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { StepOneSchema } from "@/features/step-one/step-one-schema";
+import Error from "@/shared/components/ui/Error";
+
+interface IFormInput {
+  name: string;
+  emailAddress: string;
+  phoneNumber: string;
+}
 
 export default function StepOne() {
   const [currentStep, setCurrentStep] = useState(1);
+  const { schema, defaults } = StepOneSchema();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IFormInput>({
+    resolver: zodResolver(schema),
+    defaultValues: defaults,
+  });
+  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
 
   const changeStep = (step: number) => {
     if (step < 1 || step > 4) return;
@@ -59,7 +79,7 @@ export default function StepOne() {
           <p className="text-grey-500 my-3 font-ubuntu font-normal">
             Please provide your name, email address, and phone number.
           </p>
-          <form>
+          <form id="step-one-form" onSubmit={handleSubmit(onSubmit)}>
             <div className={inputContainerClassName}>
               <label className={labelClassName}>Name</label>
               <input
@@ -68,8 +88,13 @@ export default function StepOne() {
                 placeholder="e.g Stephen King"
                 min={5}
                 max={20}
-                required
+                {...register("name", {
+                  required: true,
+                  minLength: 5,
+                  maxLength: 20,
+                })}
               />
+              {errors.name?.message && <Error message={errors.name.message} />}
             </div>
 
             <div className={inputContainerClassName}>
@@ -79,7 +104,13 @@ export default function StepOne() {
                 type="email"
                 placeholder="e.g. stephenking@lorem.com"
                 required
+                {...register("emailAddress", {
+                  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                })}
               />
+              {errors.emailAddress?.message && (
+                <Error message={errors.emailAddress.message} />
+              )}
             </div>
 
             <div className={inputContainerClassName}>
@@ -89,13 +120,19 @@ export default function StepOne() {
                 type="tel"
                 placeholder="e.g. +1 234 567 890"
                 required
+                {...register("phoneNumber", { pattern: /^\+?[0-9\s\-()]+$/ })}
               />
+              {errors.phoneNumber?.message && (
+                <Error message={errors.phoneNumber.message} />
+              )}
             </div>
           </form>
         </section>
       </main>
       <footer className="h-[70px] box-border bg-white flex items-center px-4">
         <button
+          type="submit"
+          form="step-one-form"
           onClick={() => changeStep(currentStep + 1)}
           className="bg-blue-950 font-ubuntu p-2 rounded-sm ml-auto hover:bg-blue-950-hover cursor-pointer"
         >
