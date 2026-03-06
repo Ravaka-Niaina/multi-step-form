@@ -10,7 +10,9 @@ interface IData {
 export const StepOneSchema = ({data = {}}: {data?: IData} = {}) => {
   return useMemo(() => {
     const schema = z.object({
-      name: z.string().min(1, {message: "Name is required"}),
+      name: z.string()
+        .min(5, {message: "Name must be at least 5 characters"})
+        .max(10, {message: "Name must be at most 10 characters"}),
       emailAddress: z.email({error: "Invalid email address"}),
       phoneNumber: z.string().regex(/^\+?[0-9\s\-()]+$/, {error: "Invalid phone number"}),
     });
