@@ -54,14 +54,21 @@ export default function StepTemplate({
 }: IStepOne) {
   const currentStep = stepNumber;
 
+  const goBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const changeStep = (step: number) => {
     if (step < 1 || step > 4) return;
     setCurrentStep(step);
   };
 
   return (
-    <div className="md: bg-[#eef5ff] md:w-screen md:h-screen md:flex md:justify-center md:items-center">
-      <div className="bg-[#eef5ff] h-screen grid grid-rows-[170px_1fr_70px] md:grid-rows-1 grid-cols-1 md:grid-cols-[274px_1fr] md:bg-white md:w-full md:max-w-[940px] md:h-[570px] md:p-4 md:rounded-xl box-content">
+    <div className="bg-[#eef5ff] md:w-screen md:h-screen md:flex md:justify-center md:items-center">
+      <div className="bg-[#eef5ff] grid grid-rows-[170px_1fr_70px] md:grid-rows-1 grid-cols-1 md:grid-cols-[274px_1fr] md:bg-white md:w-full md:max-w-[940px] md:h-[570px] md:p-4 md:rounded-xl box-content">
         <header className="relative md:w-[274px] md:h-[570px]">
           <div className="relative w-full md:w-[274px] h-[170px] md:h-[570px]">
             <Image
@@ -124,7 +131,15 @@ export default function StepTemplate({
             {form}
           </section>
         </main>
-        <footer className="h-[70px] box-border bg-white flex items-center px-4 md:col-start-2 md:row-start-2 md:w-[450px] md:mx-auto md:pr-0">
+        <footer className="h-[70px] mt-6 md:mt-0 box-border bg-white flex items-center px-4 md:col-start-2 md:row-start-2 md:w-[450px] md:mx-auto md:pr-0">
+          <button
+            onClick={goBack}
+            form="step-one-form"
+            className="hidden md:block text-grey-500 font-ubuntu font-medium p-2 md:px-4 rounded-sm hover:text-[#133a6b] cursor-pointer"
+          >
+            Go Back
+          </button>
+
           <button
             type="submit"
             form="step-one-form"
