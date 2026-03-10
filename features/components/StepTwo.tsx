@@ -10,14 +10,17 @@ export default function StepTwo({ setCurrentStep }: IStepTwo) {
     handleChangeMonthly,
     handleChoosePlan,
     chosenPlan,
-  } = useStepTwo();
+    onSubmit,
+  } = useStepTwo({
+    setCurrentStep,
+  });
 
   const form = (
-    <form>
+    <form id="step-two-form" onSubmit={onSubmit}>
       <div className="grid grid-cols-1 grid-rows-3 md:grid-cols-3 md:grid-rows-1 gap-4">
         {plans.map(({ name, monthlyPrice, yearlyPrice, monthsFree, icon }) => (
           <button
-            className={`${chosenPlan === name ? "bg-[#f8f9fe] ring-1 ring-[#5e599b] " : ""} grid grid-cols-[40px_1fr] md:grid-cols-1 ${isMonthly ? "grid-rows-2 md:grid-rows-[75px_20px_20px]" : "grid-rows-3 md:grid-rows-[75px_20px_20px_20px]"} gap-y-0 md:gap-y-1 gap-x-4 p-4 rounded-sm text-left border border-purple-200 w-full focus:outline-none focus:ring-1 focus:ring-[#5e599b] font-ubuntu`}
+            className={`${chosenPlan === name ? "bg-[#f8f9fe] ring-1 ring-[#5e599b] " : ""} grid grid-cols-[40px_1fr] md:grid-cols-1 ${isMonthly ? "grid-rows-2 md:grid-rows-[75px_20px_20px]" : "grid-rows-3 md:grid-rows-[75px_20px_20px_20px]"} gap-y-0 md:gap-y-1 gap-x-4 p-4 rounded-sm text-left border border-purple-200 w-full focus:outline-none focus:ring-1 focus:ring-[#5e599b] font-ubuntu hover:cursor-pointer`}
             key={name}
             onClick={(e) => {
               e.preventDefault();
@@ -31,7 +34,7 @@ export default function StepTwo({ setCurrentStep }: IStepTwo) {
               width={40}
               height={40}
             />
-            <h3 className="font-medium text-blue-950">{name}</h3>
+            <h4 className="font-medium text-blue-950">{name}</h4>
             <p className="text-grey-500">
               {isMonthly ? monthlyPrice : yearlyPrice}
             </p>
@@ -76,6 +79,7 @@ export default function StepTwo({ setCurrentStep }: IStepTwo) {
       stepNumber={2}
       paragraph="You have the option of monthly or yearly billing."
       form={form}
+      formId="step-two-form"
     />
   );
 }

@@ -37,7 +37,11 @@ const plans: IPlan[] = [
   },
 ];
 
-export default function useStepTwo() {
+interface UseStepTwo {
+  setCurrentStep: (step: number) => void;
+}
+
+export default function useStepTwo({setCurrentStep}: UseStepTwo) {
   const {isMonthly, chosenPlan, setIsMonthly, setChosenPlan} = useStepTwoStore();
 
   const handleChangeMonthly = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +50,11 @@ export default function useStepTwo() {
 
   const handleChoosePlan = (planName: string) => {
     setChosenPlan(planName);
-  }
+  };
+
+  const onSubmit = () => {
+    setCurrentStep(3);
+  };
 
   return {
     plans,
@@ -54,5 +62,6 @@ export default function useStepTwo() {
     chosenPlan,
     handleChoosePlan,
     handleChangeMonthly,
+    onSubmit,
   };
 }

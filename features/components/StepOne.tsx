@@ -72,6 +72,7 @@ export default function StepOne({ setCurrentStep }: IStepOne) {
       stepNumber={1}
       paragraph="Please provide your name, email address, and phone number."
       form={form}
+      formId="step-one-form"
     />
   );
 }

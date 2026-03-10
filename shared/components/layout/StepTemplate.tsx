@@ -43,6 +43,7 @@ interface IStepOne {
   stepNumber: number;
   paragraph: string;
   form: React.ReactNode;
+  formId: string;
 }
 
 export default function StepTemplate({
@@ -51,6 +52,7 @@ export default function StepTemplate({
   stepNumber,
   paragraph,
   form,
+  formId,
 }: IStepOne) {
   const currentStep = stepNumber;
 
@@ -134,7 +136,7 @@ export default function StepTemplate({
         <footer className="h-[70px] mt-6 md:mt-0 box-border bg-white flex items-center px-4 md:col-start-2 md:row-start-2 md:w-[450px] md:mx-auto md:pr-0">
           <button
             onClick={goBack}
-            form="step-one-form"
+            form={formId}
             className="hidden md:block text-grey-500 font-ubuntu font-medium p-2 md:px-4 rounded-sm hover:text-[#133a6b] cursor-pointer"
           >
             Go Back
@@ -142,7 +144,7 @@ export default function StepTemplate({
 
           <button
             type="submit"
-            form="step-one-form"
+            form={formId}
             className="bg-[#174a8a] font-ubuntu p-2 md:px-4 rounded-sm ml-auto hover:bg-[#133a6b] cursor-pointer"
           >
             Next Step
