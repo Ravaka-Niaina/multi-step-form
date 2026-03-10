@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useStepTwoStore} from "./useStepTwoStore";
 
 export interface IStepTwo {
   setCurrentStep: (step: number) => void;
@@ -37,15 +38,21 @@ const plans: IPlan[] = [
 ];
 
 export default function useStepTwo() {
-  const [isMonthly, setIsMonthly] = useState(true);
+  const {isMonthly, chosenPlan, setIsMonthly, setChosenPlan} = useStepTwoStore();
 
   const handleChangeMonthly = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsMonthly(!e.target.checked);
   };
 
+  const handleChoosePlan = (planName: string) => {
+    setChosenPlan(planName);
+  }
+
   return {
     plans,
     isMonthly,
+    chosenPlan,
+    handleChoosePlan,
     handleChangeMonthly,
   };
 }

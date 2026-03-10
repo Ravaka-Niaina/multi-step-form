@@ -4,16 +4,25 @@ import StepTemplate from "@/shared/components/layout/StepTemplate";
 import useStepTwo, { IStepTwo } from "../actions/useStepTwo";
 
 export default function StepTwo({ setCurrentStep }: IStepTwo) {
-  const { plans, isMonthly, handleChangeMonthly } = useStepTwo();
+  const {
+    plans,
+    isMonthly,
+    handleChangeMonthly,
+    handleChoosePlan,
+    chosenPlan,
+  } = useStepTwo();
 
   const form = (
     <form>
       <div className="grid grid-cols-1 grid-rows-3 md:grid-cols-3 md:grid-rows-1 gap-4">
         {plans.map(({ name, monthlyPrice, yearlyPrice, monthsFree, icon }) => (
           <button
-            className={`grid grid-cols-[40px_1fr] md:grid-cols-1 ${isMonthly ? "grid-rows-2 md:grid-rows-[75px_20px_20px]" : "grid-rows-3 md:grid-rows-[75px_20px_20px_20px]"} gap-y-0 md:gap-y-1 gap-x-4 p-4 rounded-sm text-left border border-purple-200 w-full focus:outline-none focus:ring-1 focus:ring-[#5e599b] font-ubuntu`}
+            className={`${chosenPlan === name ? "bg-[#f8f9fe] ring-1 ring-[#5e599b] " : ""} grid grid-cols-[40px_1fr] md:grid-cols-1 ${isMonthly ? "grid-rows-2 md:grid-rows-[75px_20px_20px]" : "grid-rows-3 md:grid-rows-[75px_20px_20px_20px]"} gap-y-0 md:gap-y-1 gap-x-4 p-4 rounded-sm text-left border border-purple-200 w-full focus:outline-none focus:ring-1 focus:ring-[#5e599b] font-ubuntu`}
             key={name}
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              handleChoosePlan(name);
+            }}
           >
             <img
               className={`row-start-1 ${isMonthly ? "row-end-3" : "row-end-4"}  md:row-end-2 col-start-1 mx-auto md:mx-0`}
@@ -41,6 +50,7 @@ export default function StepTwo({ setCurrentStep }: IStepTwo) {
             type="checkbox"
             className="sr-only peer"
             onChange={handleChangeMonthly}
+            defaultChecked={!isMonthly}
           />
 
           <div
