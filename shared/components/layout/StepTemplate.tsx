@@ -44,6 +44,8 @@ interface IStepOne {
   paragraph: string;
   form: React.ReactNode;
   formId: string;
+  nextLabel?: string;
+  nextColor?: string;
 }
 
 export default function StepTemplate({
@@ -53,6 +55,8 @@ export default function StepTemplate({
   paragraph,
   form,
   formId,
+  nextLabel,
+  nextColor,
 }: IStepOne) {
   const currentStep = stepNumber;
 
@@ -137,7 +141,7 @@ export default function StepTemplate({
           <button
             onClick={goBack}
             form={formId}
-            className="hidden md:block text-grey-500 font-ubuntu font-medium p-2 md:px-4 rounded-sm hover:text-[#133a6b] cursor-pointer"
+            className={`${currentStep === 1 ? "hidden" : ""} text-grey-500 font-ubuntu font-medium p-2 md:px-4 rounded-sm hover:text-[#133a6b] cursor-pointer`}
           >
             Go Back
           </button>
@@ -145,9 +149,9 @@ export default function StepTemplate({
           <button
             type="submit"
             form={formId}
-            className="bg-[#174a8a] font-ubuntu p-2 md:px-4 rounded-sm ml-auto hover:bg-[#133a6b] cursor-pointer"
+            className={`${nextColor ? `bg-[${nextColor}]` : "bg-[#174a8a]"} font-ubuntu p-2 md:px-4 rounded-sm ml-auto hover:bg-[#133a6b] cursor-pointer`}
           >
-            Next Step
+            {nextLabel || "Next Step"}
           </button>
         </footer>
       </div>
