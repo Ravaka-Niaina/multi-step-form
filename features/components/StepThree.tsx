@@ -4,9 +4,10 @@ import StepTemplate from "@/shared/components/layout/StepTemplate";
 import useStepThree, { IStepThree } from "../actions/useStepThree";
 
 export default function StepThree({ setCurrentStep }: IStepThree) {
-  const { addOns, chosenAddOns, toggleAddOn, onSubmit } = useStepThree({
-    setCurrentStep,
-  });
+  const { addOns, chosenAddOns, toggleAddOn, onSubmit, isMonthly } =
+    useStepThree({
+      setCurrentStep,
+    });
 
   const form = (
     <form
@@ -14,7 +15,7 @@ export default function StepThree({ setCurrentStep }: IStepThree) {
       onSubmit={onSubmit}
       className="grid grid-cols-1 grid-rows-3 gap-2"
     >
-      {addOns.map(({ name, description, monthlyPrice }) => {
+      {addOns.map(({ name, description, monthlyPrice, yearlyPrice }) => {
         const isIncluded = chosenAddOns.includes(name);
 
         return (
@@ -56,7 +57,7 @@ export default function StepThree({ setCurrentStep }: IStepThree) {
               {description}
             </span>
             <span className="row-start-1 row-end-3 col-start-3 col-end-4 my-auto text-sm text-[#5b53a2]">
-              {monthlyPrice}
+              {isMonthly ? monthlyPrice : yearlyPrice}
             </span>
           </label>
         );

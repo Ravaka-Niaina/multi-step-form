@@ -5,7 +5,7 @@ export interface IStepTwo {
   setCurrentStep: (step: number) => void;
 }
 
-interface IPlan {
+export interface IPlan {
   name: string;
   monthlyPrice: string;
   yearlyPrice: string;
@@ -13,7 +13,7 @@ interface IPlan {
   icon: string;
 }
 
-const plans: IPlan[] = [
+export const plans: IPlan[] = [
   {
     name: "Arcade",
     monthlyPrice: "$9/mo",
