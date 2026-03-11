@@ -1,6 +1,7 @@
 "use client";
 
 import Footer from "./Footer";
+import GlobalTemplate from "./GlobalTemplate";
 import Header from "./Header";
 import Main from "./Main";
 
@@ -35,18 +36,15 @@ export default function StepTemplate({
   };
 
   return (
-    <div className="bg-[#eef5ff] md:w-screen md:h-screen md:flex md:justify-center md:items-center">
-      <div className="bg-[#eef5ff] grid grid-rows-[170px_1fr_70px] md:grid-rows-1 grid-cols-1 md:grid-cols-[274px_1fr] md:bg-white md:w-full md:max-w-[940px] md:h-[570px] md:p-4 md:rounded-xl box-content">
-        <Header currentStep={currentStep} setCurrentStep={setCurrentStep} />
-        <Main title={title} paragraph={paragraph} form={form} />
-        <Footer
-          goBack={goBack}
-          formId={formId}
-          currentStep={currentStep}
-          nextColor={nextColor}
-          nextLabel={nextLabel}
-        />
-      </div>
-    </div>
+    <GlobalTemplate currentStep={currentStep} setCurrentStep={setCurrentStep}>
+      <Main title={title} paragraph={paragraph} form={form} />
+      <Footer
+        goBack={goBack}
+        formId={formId}
+        currentStep={currentStep}
+        nextColor={nextColor}
+        nextLabel={nextLabel}
+      />
+    </GlobalTemplate>
   );
 }

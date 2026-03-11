@@ -10,7 +10,7 @@ export default function Footer(props: IFooter) {
   const { goBack, formId, currentStep, nextColor, nextLabel } = props;
 
   return (
-    <footer className="h-[70px] mt-6 md:mt-0 box-border bg-white flex items-center px-4 md:col-start-2 md:row-start-2 md:w-[450px] md:mx-auto md:pr-0">
+    <footer className="h-[70px] mt-0 md:mt-0 box-border bg-white flex items-center px-4 md:col-start-2 md:row-start-2 md:w-[450px] md:mx-auto md:pr-0">
       <button
         onClick={goBack}
         form={formId}
