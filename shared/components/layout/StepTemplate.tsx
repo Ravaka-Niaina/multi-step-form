@@ -13,7 +13,6 @@ interface IStepOne {
   form: React.ReactNode;
   formId: string;
   nextLabel?: string;
-  nextColor?: string;
 }
 
 export default function StepTemplate({
@@ -24,7 +23,6 @@ export default function StepTemplate({
   form,
   formId,
   nextLabel,
-  nextColor,
 }: IStepOne) {
   const currentStep = stepNumber;
 
@@ -42,7 +40,6 @@ export default function StepTemplate({
         goBack={goBack}
         formId={formId}
         currentStep={currentStep}
-        nextColor={nextColor}
         nextLabel={nextLabel}
       />
     </GlobalTemplate>

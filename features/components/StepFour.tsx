@@ -71,7 +71,6 @@ export default function StepFour({ setCurrentStep }: IStepFour) {
       form={form}
       formId="step-four-form"
       nextLabel="Confirm"
-      nextColor="#473eff"
     />
   );
 }

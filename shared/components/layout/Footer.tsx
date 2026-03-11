@@ -22,7 +22,7 @@ export default function Footer(props: IFooter) {
       <button
         type="submit"
         form={formId}
-        className={`${nextColor ? `bg-[${nextColor}]` : "bg-[#174a8a]"} font-ubuntu p-2 md:px-4 rounded-sm ml-auto hover:bg-[#133a6b] cursor-pointer`}
+        className={`${nextColor ? "bg-[#473eff]" : "bg-[#174a8a]"} font-ubuntu p-2 px-5 rounded-sm ml-auto hover:bg-[#133a6b] cursor-pointer`}
       >
         {nextLabel || "Next Step"}
       </button>
