@@ -1,16 +1,32 @@
 import StepTemplate from "@/shared/components/layout/StepTemplate";
 import useStepFour from "../actions/useStepFour";
+import Thanks from "./Thanks";
 
 export interface IStepFour {
   setCurrentStep: (step: number) => void;
 }
 
 export default function StepFour({ setCurrentStep }: IStepFour) {
-  const { chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice } =
-    useStepFour();
+  const {
+    chosenPlan,
+    isMonthly,
+    planPrice,
+    addOnsDetails,
+    totalPrice,
+    isThanksShowed,
+    showThanks,
+  } = useStepFour();
+
+  if (isThanksShowed) return <Thanks setCurrentStep={setCurrentStep} />;
 
   const form = (
-    <form id="step-four-form" className="font-ubuntu">
+    <form
+      id="step-four-form"
+      className="font-ubuntu"
+      onSubmit={(e) => {
+        showThanks();
+      }}
+    >
       <div className="bg-[#f8f9fe] p-3">
         <div className="grid grid-cols-[1fr_70px] grid-rows-2 pb-3 border-b border-purple-200 mb-3">
           <span className="col-start-1 col-end-2 row-start-1 row-end-2 text-blue-950 font-medium">

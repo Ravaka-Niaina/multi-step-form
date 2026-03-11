@@ -1,3 +1,4 @@
+import {useState} from "react";
 import useStepThree, {addOns, IAddOn} from "./useStepThree";
 import {useStepThreeStore} from "./useStepThreeStore";
 
@@ -45,7 +46,6 @@ const getTotalPrice = (isMonthly: boolean, planPrice: string, addOnDetails: IAdd
   const totalAddOns = addOnDetails.reduce((total, addOnDetail) => {
     return total + extractNumber(addOnDetail.price);
   }, 0);
-  console.log(numberPlanPrice, totalAddOns, planPrice, addOnDetails);
 
   const totalPrice = numberPlanPrice + totalAddOns;
 
@@ -56,10 +56,15 @@ export default function useStepFour() {
   const chosenPlan = useStepTwoStore((state) => state.chosenPlan);
   const isMonthly = useStepTwoStore((state) => state.isMonthly);
   const chosenAddOns = useStepThreeStore(state => state.chosenAddOns);
+  const [isThanksShowed, setIsThanksShowed] = useState<boolean>(false);
 
   const planPrice = getPlanPrice(plans, chosenPlan, isMonthly);
   const addOnsDetails = getAddOnsDetails(addOns, chosenAddOns, isMonthly);
   const totalPrice = getTotalPrice(isMonthly, planPrice, addOnsDetails);
 
-  return {chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice};
+  const showThanks = (): void => {
+    setIsThanksShowed(true);
+  };
+
+  return {chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice, isThanksShowed, showThanks, };
 }
