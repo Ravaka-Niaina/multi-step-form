@@ -2,7 +2,7 @@
 
 import Error from "@/shared/components/ui/Error";
 import StepTemplate from "@/shared/components/layout/StepTemplate";
-import { useStepOne } from "../actions/useStepOne";
+import { useStepOne } from "../hooks/useStepOne";
 
 interface IStepOne {
   setCurrentStep: (step: number) => void;

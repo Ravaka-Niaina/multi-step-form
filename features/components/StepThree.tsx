@@ -1,7 +1,7 @@
 "use client";
 
 import StepTemplate from "@/shared/components/layout/StepTemplate";
-import useStepThree, { IStepThree } from "../actions/useStepThree";
+import useStepThree, { IStepThree } from "../hooks/useStepThree";
 import Error from "@/shared/components/ui/Error";
 
 export default function StepThree({ setCurrentStep }: IStepThree) {

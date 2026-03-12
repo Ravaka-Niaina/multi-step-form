@@ -1,7 +1,7 @@
 "use client";
 
 import StepTemplate from "@/shared/components/layout/StepTemplate";
-import useStepTwo, { IStepTwo } from "../actions/useStepTwo";
+import useStepTwo, { IStepTwo } from "../hooks/useStepTwo";
 import Error from "@/shared/components/ui/Error";
 
 export default function StepTwo({ setCurrentStep }: IStepTwo) {

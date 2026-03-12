@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoreCurrentStep } from "@/features/actions/useStoreCurrentStep";
+import { useStoreCurrentStep } from "@/features/hooks/useStoreCurrentStep";
 import StepFour from "@/features/components/StepFour";
 import StepOne from "@/features/components/StepOne";
 import StepThree from "@/features/components/StepThree";

@@ -1,5 +1,5 @@
 import StepTemplate from "@/shared/components/layout/StepTemplate";
-import useStepFour from "../actions/useStepFour";
+import useStepFour from "../hooks/useStepFour";
 import Thanks from "./Thanks";
 
 export interface IStepFour {
