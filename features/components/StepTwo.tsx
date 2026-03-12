@@ -2,6 +2,7 @@
 
 import StepTemplate from "@/shared/components/layout/StepTemplate";
 import useStepTwo, { IStepTwo } from "../actions/useStepTwo";
+import Error from "@/shared/components/ui/Error";
 
 export default function StepTwo({ setCurrentStep }: IStepTwo) {
   const {
@@ -11,16 +12,23 @@ export default function StepTwo({ setCurrentStep }: IStepTwo) {
     handleChoosePlan,
     chosenPlan,
     onSubmit,
+    errorMessage,
   } = useStepTwo({
     setCurrentStep,
   });
 
   const form = (
-    <form id="step-two-form" onSubmit={onSubmit}>
+    <form
+      id="step-two-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+    >
       <div className="grid grid-cols-1 grid-rows-3 md:grid-cols-3 md:grid-rows-1 gap-4">
         {plans.map(({ name, monthlyPrice, yearlyPrice, monthsFree, icon }) => (
           <button
-            className={`${chosenPlan === name ? "bg-[#f8f9fe] ring-1 ring-[#5e599b] " : ""} grid grid-cols-[40px_1fr] md:grid-cols-1 ${isMonthly ? "grid-rows-2 md:grid-rows-[75px_20px_20px]" : "grid-rows-3 md:grid-rows-[75px_20px_20px_20px]"} gap-y-0 md:gap-y-1 gap-x-4 p-4 rounded-sm text-left border border-purple-200 w-full focus:outline-none focus:ring-1 focus:ring-[#5e599b] font-ubuntu hover:cursor-pointer`}
+            className={`${chosenPlan === name ? "bg-[#f8f9fe] ring-1 ring-[#5e599b] " : ""} grid grid-cols-[40px_1fr] md:grid-cols-1 ${isMonthly ? "grid-rows-2 md:grid-rows-[75px_20px_20px]" : "grid-rows-3 md:grid-rows-[75px_20px_20px_20px]"} gap-y-0 md:gap-y-1 gap-x-4 p-4 rounded-sm text-left border border-purple-200 hover:border-[#5e599b] w-full focus:outline-none focus:ring-1 focus:ring-[#5e599b] font-ubuntu hover:cursor-pointer`}
             key={name}
             onClick={(e) => {
               e.preventDefault();
@@ -69,6 +77,7 @@ export default function StepTwo({ setCurrentStep }: IStepTwo) {
 
         <span className="text-grey-500">Yearly</span>
       </div>
+      {errorMessage && <Error message={errorMessage} />}
     </form>
   );
 

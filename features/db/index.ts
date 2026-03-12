@@ -21,7 +21,7 @@ async function main() {
   await db
     .update(usersTable)
     .set({phoneNumber: "+261330011122"});
-  console.log("User info updated!")
+  console.log("User info updated!");
 
   await db
     .delete(usersTable)

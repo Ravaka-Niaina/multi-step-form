@@ -43,17 +43,24 @@ interface UseStepTwo {
 
 export default function useStepTwo({setCurrentStep}: UseStepTwo) {
   const {isMonthly, chosenPlan, setIsMonthly, setChosenPlan} = useStepTwoStore();
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
 
   const handleChangeMonthly = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsMonthly(!e.target.checked);
   };
 
   const handleChoosePlan = (planName: string) => {
+    if (chosenPlan === planName) return setChosenPlan("");
     setChosenPlan(planName);
   };
 
   const onSubmit = () => {
-    setCurrentStep(3);
+    if (!chosenPlan) {
+      return setErrorMessage("You must choose a plan.");
+    } else {
+      if (errorMessage) setErrorMessage(null);
+      setCurrentStep(3);
+    }
   };
 
   return {
@@ -63,5 +70,6 @@ export default function useStepTwo({setCurrentStep}: UseStepTwo) {
     handleChoosePlan,
     handleChangeMonthly,
     onSubmit,
+    errorMessage,
   };
 }
