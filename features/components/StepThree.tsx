@@ -2,17 +2,27 @@
 
 import StepTemplate from "@/shared/components/layout/StepTemplate";
 import useStepThree, { IStepThree } from "../actions/useStepThree";
+import Error from "@/shared/components/ui/Error";
 
 export default function StepThree({ setCurrentStep }: IStepThree) {
-  const { addOns, chosenAddOns, toggleAddOn, onSubmit, isMonthly } =
-    useStepThree({
-      setCurrentStep,
-    });
+  const {
+    addOns,
+    chosenAddOns,
+    toggleAddOn,
+    onSubmit,
+    isMonthly,
+    errorMessage,
+  } = useStepThree({
+    setCurrentStep,
+  });
 
   const form = (
     <form
       id="step-three-form"
-      onSubmit={onSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
       className="grid grid-cols-1 grid-rows-3 gap-2"
     >
       {addOns.map(({ name, description, monthlyPrice, yearlyPrice }) => {
@@ -62,6 +72,7 @@ export default function StepThree({ setCurrentStep }: IStepThree) {
           </label>
         );
       })}
+      {errorMessage && <Error message={errorMessage} />}
     </form>
   );
 

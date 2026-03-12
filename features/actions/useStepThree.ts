@@ -39,6 +39,7 @@ interface UseStepThree {
 }
 
 export default function useStepThree({setCurrentStep}: UseStepThree) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const {chosenAddOns, setChosenAddOns} = useStepThreeStore();
   const isMonthly = useStepTwoStore((state) => state.isMonthly);
 
@@ -49,7 +50,12 @@ export default function useStepThree({setCurrentStep}: UseStepThree) {
   };
 
   const onSubmit = () => {
-    setCurrentStep(4);
+    if (chosenAddOns.length === 0) {
+      return setErrorMessage("You must choose an add-on at least.");
+    } else {
+      if (errorMessage) setErrorMessage(null);
+      setCurrentStep(4);
+    }
   };
 
   return {
@@ -58,5 +64,6 @@ export default function useStepThree({setCurrentStep}: UseStepThree) {
     toggleAddOn,
     onSubmit,
     isMonthly,
+    errorMessage,
   };
 }

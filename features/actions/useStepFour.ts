@@ -52,7 +52,11 @@ const getTotalPrice = (isMonthly: boolean, planPrice: string, addOnDetails: IAdd
   return `$${totalPrice}/${isMonthly ? "mo" : "yr"}`;
 }
 
-export default function useStepFour() {
+interface UseStepFour {
+  setCurrentStep: (step: number) => void;
+}
+
+export default function useStepFour({setCurrentStep}: UseStepFour) {
   const chosenPlan = useStepTwoStore((state) => state.chosenPlan);
   const isMonthly = useStepTwoStore((state) => state.isMonthly);
   const chosenAddOns = useStepThreeStore(state => state.chosenAddOns);
@@ -66,5 +70,9 @@ export default function useStepFour() {
     setIsThanksShowed(true);
   };
 
-  return {chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice, isThanksShowed, showThanks, };
+  const handleClickChange = () => {
+    setCurrentStep(1);
+  };
+
+  return {chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice, isThanksShowed, showThanks, handleClickChange, };
 }

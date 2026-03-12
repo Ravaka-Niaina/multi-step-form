@@ -8,6 +8,7 @@ export interface IStepFour {
 
 export default function StepFour({ setCurrentStep }: IStepFour) {
   const {
+    handleClickChange,
     chosenPlan,
     isMonthly,
     planPrice,
@@ -15,7 +16,9 @@ export default function StepFour({ setCurrentStep }: IStepFour) {
     totalPrice,
     isThanksShowed,
     showThanks,
-  } = useStepFour();
+  } = useStepFour({
+    setCurrentStep,
+  });
 
   if (isThanksShowed) return <Thanks setCurrentStep={setCurrentStep} />;
 
@@ -34,7 +37,10 @@ export default function StepFour({ setCurrentStep }: IStepFour) {
           </span>
           <span
             className="col-start-1 col-end-2 row-start-2 row-end-3 w-fit text-grey-500 underline decoration-2 cursor-pointer"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClickChange();
+            }}
           >
             Change
           </span>
