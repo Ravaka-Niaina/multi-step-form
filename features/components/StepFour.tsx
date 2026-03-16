@@ -15,7 +15,7 @@ export default function StepFour({ setCurrentStep }: IStepFour) {
     addOnsDetails,
     totalPrice,
     isThanksShowed,
-    showThanks,
+    handleConfirm,
   } = useStepFour({
     setCurrentStep,
   });
@@ -27,7 +27,8 @@ export default function StepFour({ setCurrentStep }: IStepFour) {
       id="step-four-form"
       className="font-ubuntu"
       onSubmit={(e) => {
-        showThanks();
+        e.preventDefault();
+        handleConfirm();
       }}
     >
       <div className="bg-[#f8f9fe] p-3">

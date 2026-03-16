@@ -1,6 +1,7 @@
 import {useState} from "react";
-import useStepThree, {addOns, IAddOn} from "./useStepThree";
+import {addOns, IAddOn} from "./useStepThree";
 import {useStepThreeStore} from "./useStepThreeStore";
+import {createSub} from "../actions/createSub";
 
 interface IAddOnDetail {
   name: string;
@@ -9,6 +10,7 @@ interface IAddOnDetail {
 
 import {plans, IPlan} from "./useStepTwo";
 import {useStepTwoStore} from "./useStepTwoStore";
+import {useStepOneStore} from "./useStepOneStore";
 
 function extractNumber(stringNumber: string): number {
   const match = stringNumber.match(/\d+(\.\d+)?/);
@@ -57,16 +59,62 @@ interface UseStepFour {
 }
 
 export default function useStepFour({setCurrentStep}: UseStepFour) {
+  const {clearErrorsFromBackend, setErrorFromBackend, } = useStepOneStore();
+
+  const userName = useStepOneStore((state) => state.name);
+  const userEmailAddress = useStepOneStore((state) => state.emailAddress);
+  const userPhoneNumber = useStepOneStore((state) => state.phoneNumber);
+  const resetStepOneStore = useStepOneStore((state) => state.reset);
+
   const chosenPlan = useStepTwoStore((state) => state.chosenPlan);
   const isMonthly = useStepTwoStore((state) => state.isMonthly);
-  const chosenAddOns = useStepThreeStore(state => state.chosenAddOns);
+  const resetStepTwoStore = useStepTwoStore((state) => state.reset);
+
+  const chosenAddOns = useStepThreeStore((state) => state.chosenAddOns);
+  const resetStepThreeStore = useStepThreeStore((state) => state.reset);
+
   const [isThanksShowed, setIsThanksShowed] = useState<boolean>(false);
 
   const planPrice = getPlanPrice(plans, chosenPlan, isMonthly);
   const addOnsDetails = getAddOnsDetails(addOns, chosenAddOns, isMonthly);
   const totalPrice = getTotalPrice(isMonthly, planPrice, addOnsDetails);
 
-  const showThanks = (): void => {
+  const resetFormStores = () => {
+    resetStepOneStore();
+    resetStepTwoStore();
+    resetStepThreeStore();
+
+    useStepOneStore.persist.clearStorage();
+    useStepTwoStore.persist.clearStorage();
+    useStepThreeStore.persist.clearStorage();
+  };
+
+  const handleConfirm = async (): Promise<void> => {
+    const user = {
+      name: userName,
+      emailAddress: userEmailAddress,
+      phoneNumber: userPhoneNumber,
+    };
+
+    clearErrorsFromBackend();
+    const backendErrors = await createSub({
+      user,
+      chosenPlan,
+      isMonthly,
+      chosenAddOns
+    });
+    console.log(backendErrors);
+
+    if (backendErrors) {
+      backendErrors.forEach(err => {
+        if (err.field === "emailAddress" || err.field === "phoneNumber") {
+          setErrorFromBackend(err.field, err.message);
+        }
+      });
+      return setCurrentStep(1);
+    }
+
+    resetFormStores();
     setIsThanksShowed(true);
   };
 
@@ -74,5 +122,5 @@ export default function useStepFour({setCurrentStep}: UseStepFour) {
     setCurrentStep(1);
   };
 
-  return {chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice, isThanksShowed, showThanks, handleClickChange, };
+  return {chosenPlan, isMonthly, planPrice, addOnsDetails, totalPrice, isThanksShowed, handleConfirm, handleClickChange, };
 }

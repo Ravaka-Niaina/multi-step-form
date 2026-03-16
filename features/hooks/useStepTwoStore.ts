@@ -6,6 +6,7 @@ interface StepTwoStore {
   chosenPlan: string;
   setIsMonthly: (isMonthly: boolean) => void;
   setChosenPlan: (chosenPlan: string) => void;
+  reset: () => void;
 }
 
 export const useStepTwoStore = create<StepTwoStore>()(
@@ -15,6 +16,7 @@ export const useStepTwoStore = create<StepTwoStore>()(
       chosenPlan: "",
       setIsMonthly: (isMonthly: boolean) => set({isMonthly}),
       setChosenPlan: (chosenPlan: string) => set({chosenPlan}),
+      reset: () => set({isMonthly: true, chosenPlan: ""}),
     }), {name: "step-two"}
   ),
 );

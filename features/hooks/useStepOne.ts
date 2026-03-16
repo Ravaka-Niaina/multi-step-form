@@ -4,7 +4,7 @@ import {StepOneSchema} from "@/features/schema/step-one-schema";
 import {useStepOneStore} from "./useStepOneStore";
 import {useEffect} from "react";
 
-interface IFormInput {
+export interface IFormInput {
   name: string;
   emailAddress: string;
   phoneNumber: string;
@@ -15,7 +15,7 @@ interface UseStepOne {
 }
 
 export function useStepOne({setCurrentStep}: UseStepOne) {
-  const {name, emailAddress, phoneNumber, setName, setEmailAddress, setPhoneNumber} = useStepOneStore();
+  const {name, emailAddress, phoneNumber, errorsFromBackend, setName, setEmailAddress, setPhoneNumber} = useStepOneStore();
   const {schema, defaults} = StepOneSchema({
     data: {
       name,
@@ -50,10 +50,22 @@ export function useStepOne({setCurrentStep}: UseStepOne) {
     setCurrentStep(2);
   };
 
+  console.log(errorsFromBackend);
+
+  const mappedErrorsFromBackend: {[key: string]: {message: string}} = {};
+  Object.keys(errorsFromBackend).forEach(errKey => {
+    mappedErrorsFromBackend[errKey] = {message: errorsFromBackend[errKey]};
+  });
+
+  const mappedErrorsFromZod: {[key: string]: {message: string;}} = {};
+  Object.keys(errors).forEach(errKey => {
+    mappedErrorsFromZod[errKey] = {message: errors[errKey as keyof IFormInput]?.message || ""};
+  });
+
   return {
     register,
     handleSubmit,
-    errors,
+    errors: {...mappedErrorsFromBackend, ...mappedErrorsFromZod},
     onSubmit,
     defaults,
   };

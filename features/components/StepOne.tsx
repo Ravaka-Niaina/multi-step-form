@@ -13,10 +13,10 @@ export default function StepOne({ setCurrentStep }: IStepOne) {
     setCurrentStep,
   });
 
-  const inputContainerClassName = "";
+  const inputContainerClassName = "mb-4";
   const labelClassName = "block";
   const inputClassName =
-    "border rounded-sm border-purple-200 w-full p-2 mb-4 placeholder:font-ubuntu placeholder:font-[500] placeholder:text-grey-500 focus:outline-none focus:ring-1 focus:ring-[#5e599b]";
+    "border rounded-sm border-purple-200 w-full p-2 placeholder:font-ubuntu placeholder:font-[500] placeholder:text-grey-500 focus:outline-none focus:ring-1 focus:ring-[#5e599b]";
 
   const form = (
     <form id="step-one-form" onSubmit={handleSubmit(onSubmit)}>
