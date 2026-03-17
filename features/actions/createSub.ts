@@ -70,7 +70,7 @@ export async function createSub({
   isMonthly,
   chosenAddOns,
 }: {
-  user: IUser,
+  user: ISub["user"],
   chosenPlan: string,
   isMonthly: boolean,
   chosenAddOns: string[]
