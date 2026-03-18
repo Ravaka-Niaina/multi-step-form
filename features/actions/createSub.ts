@@ -1,6 +1,5 @@
 "use server";
 
-import {deflateSync} from "node:zlib";
 import {db} from "../db";
 import {chosenAddOnsTable, chosenPlanTable, isPlanMonthlyTable, usersTable} from "../db/schemas/userSchema";
 
@@ -32,36 +31,42 @@ async function useTransactionToCreateSub(props: ISub) {
     name, emailAddress, phoneNumber,
   };
 
-  await db.transaction(async (tx) => {
-    const [returnedUser] = await tx
-      .insert(usersTable)
-      .values(user)
-      .returning({id: usersTable.id});
+  try {
+    await db.transaction(async (tx) => {
+      const [returnedUser] = await tx
+        .insert(usersTable)
+        .values(user)
+        .returning({id: usersTable.id});
 
-    const [returnedIsPlanMonthly] = await tx
-      .insert(isPlanMonthlyTable)
-      .values({
-        userId: returnedUser.id,
-        isPlanMonthly: isMonthly ? 1 : 0
-      })
-      .returning({id: isPlanMonthlyTable.id});
+      const [returnedIsPlanMonthly] = await tx
+        .insert(isPlanMonthlyTable)
+        .values({
+          userId: returnedUser.id,
+          isPlanMonthly: isMonthly ? 1 : 0
+        })
+        .returning({id: isPlanMonthlyTable.id})
 
-    await tx
-      .insert(chosenPlanTable)
-      .values({
+
+      await tx
+        .insert(chosenPlanTable)
+        .values({
+          isMonthlyId: returnedIsPlanMonthly.id,
+          planId: chosenPlan,
+        });
+
+      const chosenAddOnsDetails = chosenAddOns.map(chosenAddOn => ({
         isMonthlyId: returnedIsPlanMonthly.id,
-        planId: chosenPlan,
-      });
+        addOnsId: chosenAddOn,
+      }));
 
-    const chosenAddOnsDetails = chosenAddOns.map(chosenAddOn => ({
-      isMonthlyId: returnedIsPlanMonthly.id,
-      addOnsId: chosenAddOn,
-    }));
-
-    await tx
-      .insert(chosenAddOnsTable)
-      .values(chosenAddOnsDetails);
-  });
+      await tx
+        .insert(chosenAddOnsTable)
+        .values(chosenAddOnsDetails);
+    });
+  } catch (error) {
+    console.error("something is wrong =>", error);
+    throw (error);
+  }
 }
 
 export async function createSub({
