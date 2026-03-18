@@ -31,6 +31,8 @@ async function useTransactionToCreateSub(props: ISub) {
     name, emailAddress, phoneNumber,
   };
 
+  console.log("env ==>", process.env.DATABASE_URL!);
+
   try {
     await db.transaction(async (tx) => {
       const [returnedUser] = await tx
